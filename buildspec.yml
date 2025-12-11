@@ -3,43 +3,17 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      java: corretto17
-    commands:
-      # Download static analysis tools
-      - echo "Installing Checkstyle & SpotBugs"
-      - wget https://github.com/checkstyle/checkstyle/releases/download/checkstyle-10.12.4/checkstyle-10.12.4-all.jar -O checkstyle.jar
-      - wget https://repo1.maven.org/maven2/com/github/spotbugs/spotbugs/4.8.0/spotbugs-4.8.0.tgz
-      - tar -xzf spotbugs-4.8.0.tgz
-
+      java: corretto11
   pre_build:
     commands:
-      - echo "Running static analysis..."
-      # Checkstyle
-      - java -jar checkstyle.jar -c /google_checks.xml src/main/java > checkstyle-report.txt || true
-      
-      # SpotBugs
-      - ./spotbugs-4.8.0/bin/spotbugs -textui -effort:max -low src/main/java > spotbugs-report.txt || true
-
-      - echo "Checkstyle and SpotBugs checks complete."
-
+      - echo Nothing to do in the pre_build phase...
   build:
     commands:
-      - echo "Compiling Java code..."
-      - mkdir -p out
-      - javac -d out src/main/java/Hello.java
-      - javac -cp out -d out src/test/java/HelloTest.java
-
+      - echo Build started on `date`
+      - mvn install
   post_build:
     commands:
-      - echo "Running tests..."
-      - java -cp out HelloTest
-      - echo "Build & test completed."
-
+      - echo Build completed on `date`
 artifacts:
   files:
-    - '**/*'
-  secondary-artifacts:
-    reports:
-      files:
-        - checkstyle-report.txt
-        - spotbugs-report.txt
+    - target/messageUtil-1.0.jar
