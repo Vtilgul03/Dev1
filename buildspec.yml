@@ -26,8 +26,8 @@ phases:
     commands:
       - echo "Compiling Java code..."
       - mkdir -p out
-      - javac -d out src/main/java/Hello.java
-      - javac -cp out -d out src/test/java/HelloTest.java
+      - javac -d out src/main/java/MessageUtil.java
+      - javac -cp out -d out src/test/java/TestMessageUtil.java
 
   post_build:
     commands:
